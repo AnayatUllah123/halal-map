@@ -31,4 +31,4 @@ const ZoomControl = () => {
   );
 };
 
-export default ZoomControl; // ✅ IMPORTANT
+export default ZoomControl; 

@@ -1,4 +1,4 @@
-import { Menu, Search, Send, User } from "lucide-react";
+import { Menu, Search, Send, User, X } from "lucide-react";
 import { useState } from "react";
 
 const Navbar = ({ searchQuery, setSearchQuery }) => {
@@ -12,13 +12,14 @@ const Navbar = ({ searchQuery, setSearchQuery }) => {
 
   return (
     <div className="w-full bg-[#ECF7F2] border-b border-gray-200 shadow-sm">
-      <div className="h-16 flex items-center px-6">
+      
+      <div className="h-14 md:h-16 flex items-center px-3 md:px-6">
         
-        <div className="font-bold text-2xl text-green-800">
+        <div className="font-bold text-lg md:text-2xl text-green-800">
           Verdant Halal
         </div>
 
-        <div className="hidden md:flex ml-10 gap-8 text-sm">
+        <div className="hidden md:flex ml-10 gap-6 lg:gap-8 text-sm">
           {navLinks.map((link, index) => (
             <a
               key={index}
@@ -31,21 +32,21 @@ const Navbar = ({ searchQuery, setSearchQuery }) => {
           ))}
         </div>
 
-        <div className="ml-auto hidden md:flex items-center gap-4">
+        <div className="ml-auto hidden md:flex items-center gap-3 lg:gap-4">
 
           <div className="relative">
             <Search className="absolute top-2.5 left-3 w-4 h-4 text-gray-400" />
             <input
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search by name or cuisine..."
-              className="pl-9 pr-3 py-2 rounded-full border border-gray-300 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition"
+              placeholder="Search..."
+              className="pl-9 pr-3 py-2 w-40 lg:w-55 rounded-full border border-gray-300 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition"
             />
           </div>
 
-          <button className="flex items-center gap-2 px-4 py-2 rounded-full cursor-pointer bg-green-700 text-white text-sm hover:bg-green-800 transition shadow-sm">
+          <button className="flex items-center gap-2 px-3 lg:px-4 py-2 rounded-full cursor-pointer bg-green-700 text-white text-sm hover:bg-green-800 transition shadow-sm">
             <Send size={14} />
-            Near Me
+            <span className="hidden lg:inline">Near Me</span>
           </button>
 
           <div className="w-9 h-9 rounded-full bg-green-700 flex items-center justify-center text-white cursor-pointer hover:bg-green-800 transition">
@@ -54,31 +55,53 @@ const Navbar = ({ searchQuery, setSearchQuery }) => {
         </div>
 
         <div className="ml-auto md:hidden">
-          <Menu
-            className="cursor-pointer text-gray-700"
-            onClick={() => setOpen(!open)}
-          />
+          {open ? (
+            <X
+              className="cursor-pointer text-gray-700"
+              onClick={() => setOpen(false)}
+            />
+          ) : (
+            <Menu
+              className="cursor-pointer text-gray-700"
+              onClick={() => setOpen(true)}
+            />
+          )}
         </div>
       </div>
 
       {open && (
-        <div className="md:hidden px-6 pb-4 flex flex-col gap-3 text-sm">
+        <div className="md:hidden px-4 pb-4 flex flex-col gap-4 text-sm animate-in slide-in-from-top duration-200">
+          
+          <div className="relative">
+            <Search className="absolute top-2.5 left-3 w-4 h-4 text-gray-400" />
+            <input
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search restaurants..."
+              className="w-full pl-9 pr-3 py-2 border rounded-full text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20"
+            />
+          </div>
+
           {navLinks.map((link, index) => (
             <a
               key={index}
               href={link.href}
-              className="text-gray-600 hover:text-green-700 border-b pb-1"
+              className="text-gray-700 hover:text-green-700 border-b pb-2"
+              onClick={() => setOpen(false)}
             >
               {link.name}
             </a>
           ))}
 
-          <input
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search by name or cuisine..."
-            className="mt-2 px-3 py-2 border rounded-full text-sm"
-          />
+          <button className="flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-green-700 text-white hover:bg-green-800 transition">
+            <Send size={14} />
+            Near Me
+          </button>
+
+          <div className="flex items-center gap-2 text-gray-700">
+            <User size={18} />
+            <span>Profile</span>
+          </div>
         </div>
       )}
     </div>
