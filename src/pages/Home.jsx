@@ -88,6 +88,7 @@ const Home = () => {
           <Map
             restaurants={mapRestaurants}
             onSelect={setSelected}
+            trigger={showMap}
           />
         </div>
       </div>

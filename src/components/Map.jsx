@@ -22,17 +22,21 @@ const markerColors = [
   "#0d9488",
 ];
 
-const ResizeMap = () => {
+const ResizeMap = ({ trigger }) => {
   const map = useMap();
 
   useEffect(() => {
-    setTimeout(() => map.invalidateSize(), 0);
-  }, [map]);
+    const timeout = setTimeout(() => {
+      map.invalidateSize();
+    }, 300); // delay important
+
+    return () => clearTimeout(timeout);
+  }, [trigger, map]);
 
   return null;
 };
 
-const Map = ({ restaurants = [], onSelect }) => {
+const Map = ({ restaurants = [], onSelect,trigger  }) => {
   const validRestaurants = restaurants.filter((res) => {
     const lat = Number(res.lat);
     const lng = Number(res.lng);
@@ -48,7 +52,7 @@ const Map = ({ restaurants = [], onSelect }) => {
       zoomAnimationThreshold={4}
       className="h-full w-full"
     >
-      <ResizeMap />
+      <ResizeMap trigger={trigger} />
       <ZoomControl/>
 
       <TileLayer
@@ -71,7 +75,6 @@ const Map = ({ restaurants = [], onSelect }) => {
             <Popup closeButton={false} className="p-0! [&_.leaflet-popup-content-wrapper]:overflow-visible!">
               <div className="w-57.5 rounded-2xl bg-[#f8faf9] shadow-xl p-4 font-sans">
                 
-                {/* Header */}
                 <div className="mb-2">
                   <div className="flex items-center gap-4">
                     
@@ -92,7 +95,6 @@ const Map = ({ restaurants = [], onSelect }) => {
                   </div>
                 </div>
 
-                {/* Info */}
                 <div className="space-y-2 text-[13px] text-gray-700 mb-3">
                   
                   <div className="flex items-center gap-2">
@@ -119,7 +121,6 @@ const Map = ({ restaurants = [], onSelect }) => {
                   </div>
                 </div>
 
-                {/* Button */}
                 <button
                   onClick={() => onSelect(res)}
                   className="w-full flex items-center justify-center gap-2 bg-green-800 hover:bg-green-900 text-white text-sm font-semibold py-2.5 rounded-xl transition-all duration-200"
