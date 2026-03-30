@@ -1,0 +1,36 @@
+.marker-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.marker-bounce {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+
+  animation: bounce 1.2s infinite;
+}
+
+/* 🔥 Bounce Animation */
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* 🔥 Hover effect */
+.marker-bounce:hover {
+  transform: scale(1.15);
+  animation: none;
+}
